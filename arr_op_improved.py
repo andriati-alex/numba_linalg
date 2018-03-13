@@ -24,7 +24,7 @@ def arrRPart(n, v, vreal):
     for i in prange(n):
         vreal[i] = v[i].real;
 
-@jit([(uint64, complex128[:], complex128[:])], nopython=True, nogil=True)
+@jit([(uint64, complex128[:], float64[:])], nopython=True, nogil=True)
 def arrIPart(n, v, vimag):
     for i in prange(n):
         vimag[i] = v[i].imag;
@@ -76,8 +76,9 @@ def arrUpdate(n, v1, z, v2, v):
     for i in prange(n):
         v[i] = v1[i] + z * v2[i];
 
-@jit([(uint64, complex128[:], complex128[:]),
-      (uint64, float64[:], float64[:])], nopython=True, nogil=True)
+@jit([(uint64, complex128[:], float64[:]),
+      (uint64, float64[:], float64[:])], nopython=True, nogil=True,
+      parallel=True)
 def arrAbs(n, v, vabs):
     for i in prange(n):
         vabs[i] = abs(v[i]);
